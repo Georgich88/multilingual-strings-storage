@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static com.georgeisaev.multilingualstorage.demodata.AccountGenerator.generateDemoAccounts;
+import static com.georgeisaev.multilingualstorage.demodata.AccountGenerator.generateDemoPersistedAccounts;
 
 @Slf4j
 @SpringBootTest
@@ -44,10 +45,11 @@ public class SameTableDaoBenchmarkTest {
 	@Autowired
 	private SameTableDao dao;
 	private final List<Account> accountsToInsert;
-	private List<Account> accountsToUpdate;
+	private final List<Account> accountsToUpdate;
 
 	public SameTableDaoBenchmarkTest() {
 		this.accountsToInsert = generateDemoAccounts(ACCOUNT_TEST_DATA_SIZE);
+		this.accountsToUpdate = generateDemoPersistedAccounts(ACCOUNT_TEST_DATA_SIZE);
 	}
 
 	@Setup
@@ -89,12 +91,11 @@ public class SameTableDaoBenchmarkTest {
 
 	@Benchmark
 	public void benchmark02Retrieve() {
-		accountsToUpdate = dao.findAll();
+		dao.findAll();
 	}
 
 	@Benchmark
 	public void benchmark03Update() {
-		accountsToUpdate = dao.findAll();
 		dao.save(accountsToUpdate);
 	}
 

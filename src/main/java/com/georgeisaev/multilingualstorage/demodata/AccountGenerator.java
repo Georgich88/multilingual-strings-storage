@@ -16,4 +16,11 @@ public class AccountGenerator {
 		return accounts;
 	}
 
+	public static List<Account> generateDemoPersistedAccounts(final int size) {
+		List<Account> accounts = new ArrayList<>(size);
+		IntStream.range(0, size).forEach(i -> accounts.add(
+				new Account(i + 1, MultilingualString.of("Some name", "Какое-то имя", "어떤 이름"))));
+		return accounts;
+	}
+
 }
