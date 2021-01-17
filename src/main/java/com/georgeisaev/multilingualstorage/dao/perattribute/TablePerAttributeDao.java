@@ -1,4 +1,4 @@
-package com.georgeisaev.multilingualstorage.dao.extensionTable;
+package com.georgeisaev.multilingualstorage.dao.perattribute;
 
 import com.georgeisaev.multilingualstorage.dao.Dao;
 import com.georgeisaev.multilingualstorage.domain.Account;
@@ -17,36 +17,36 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Repository
-public class ExtensionTableDao implements Dao {
+public class TablePerAttributeDao implements Dao {
 
-	private static final String INSERT = "with ids as (insert into \"02_extension_table_account\" default values returning id),\n" +
-			"en as (insert into \"02_extension_table_account_translations\" (id, language, first_name) select id, 'en', ? from ids),\n" +
-			"ru as (insert into \"02_extension_table_account_translations\" (id, language, first_name) select id, 'ru', ? from ids),\n" +
-			"ko as (insert into \"02_extension_table_account_translations\" (id, language, first_name) select id, 'ko', ? from ids)\n" +
+	private static final String INSERT = "with ids as (insert into table_per_attribute_account default values returning id),\n" +
+			"en as (insert into table_per_attribute_account_first_name_translations (id, language, translation) select id, 'en', ? from ids),\n" +
+			"ru as (insert into table_per_attribute_account_first_name_translations (id, language, translation) select id, 'ru', ? from ids),\n" +
+			"ko as (insert into table_per_attribute_account_first_name_translations (id, language, translation) select id, 'ko', ? from ids)\n" +
 			"select id from ids;";
 	private static final String SELECT = "select account.id,\n" +
-			"translations_en.first_name as first_name_en,\n" +
-			"translations_ru.first_name as first_name_ru,\n" +
-			"translations_ko.first_name as first_name_ko\n" +
-			"from \"02_extension_table_account\" AS account\n" +
-			"  left join \"02_extension_table_account_translations\" AS \"translations_en\"\n" +
+			"translations_en.translation as first_name_en,\n" +
+			"translations_ru.translation as first_name_ru,\n" +
+			"translations_ko.translation as first_name_ko\n" +
+			"from table_per_attribute_account AS account\n" +
+			"  left join table_per_attribute_account_first_name_translations AS \"translations_en\"\n" +
 			"     on account.id = \"translations_en\".id and translations_en.language = 'en'\n" +
-			"  left join \"02_extension_table_account_translations\" AS \"translations_ru\"\n" +
+			"  left join table_per_attribute_account_first_name_translations AS \"translations_ru\"\n" +
 			"     on account.id = \"translations_ru\".id and translations_ru.language = 'ru'\n" +
-			"  left join \"02_extension_table_account_translations\" AS \"translations_ko\"\n" +
+			"  left join table_per_attribute_account_first_name_translations AS \"translations_ko\"\n" +
 			"     on account.id = \"translations_ko\".id and translations_ko.language = 'ko'";
-	private static final String UPDATE = "with ids as (select id from \"02_extension_table_account\" where id = ?),\n" +
-			"     en as (update \"02_extension_table_account_translations\" as en set first_name = ? from (select id from ids) AS ids where en.id = ids.id and language = 'en'),\n" +
-			"     ru as (update \"02_extension_table_account_translations\" as ru set first_name = ? from (select id from ids) AS ids where ru.id = ids.id and language = 'ru'),\n" +
-			"     ko as (update \"02_extension_table_account_translations\" as ko set first_name = ? from (select id from ids) AS ids where ko.id = ids.id and language = 'ko')\n" +
+	private static final String UPDATE = "with ids as (select id from table_per_attribute_account where id = ?),\n" +
+			"     en as (update table_per_attribute_account_first_name_translations as en set translation = ? from (select id from ids) AS ids where en.id = ids.id and language = 'en'),\n" +
+			"     ru as (update table_per_attribute_account_first_name_translations as ru set translation = ? from (select id from ids) AS ids where ru.id = ids.id and language = 'ru'),\n" +
+			"     ko as (update table_per_attribute_account_first_name_translations as ko set translation = ? from (select id from ids) AS ids where ko.id = ids.id and language = 'ko')\n" +
 			"select id from ids;";
-	private static final String DELETE = "delete from \"02_extension_table_account_translations\";\n" +
-			"delete from \"02_extension_table_account\"\n;" +
-			"ALTER SEQUENCE \"02_extension_table_account_id_seq\" RESTART;\n";
-	private JdbcTemplate jdbc;
+	private static final String DELETE = "delete from table_per_attribute_account_first_name_translations;\n" +
+			"delete from table_per_attribute_account\n;" +
+			"ALTER SEQUENCE table_per_attribute_account_id_seq RESTART;\n";
+	private final JdbcTemplate jdbc;
 
 	@Autowired
-	public ExtensionTableDao(JdbcTemplate jdbc) {
+	public TablePerAttributeDao(JdbcTemplate jdbc) {
 		this.jdbc = jdbc;
 	}
 

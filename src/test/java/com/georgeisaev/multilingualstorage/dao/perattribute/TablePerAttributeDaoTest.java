@@ -1,17 +1,12 @@
-package com.georgeisaev.multilingualstorage.dao.extensionTable;
+package com.georgeisaev.multilingualstorage.dao.perattribute;
 
-import com.georgeisaev.multilingualstorage.MultilingualStorageApplication;
-import com.georgeisaev.multilingualstorage.dao.sameTable.SameTableDao;
 import com.georgeisaev.multilingualstorage.domain.Account;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.openjdk.jmh.annotations.Setup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.List;
 
@@ -20,16 +15,16 @@ import static com.georgeisaev.multilingualstorage.demodata.AccountGenerator.gene
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest
-class ExtensionTableDaoTest {
+class TablePerAttributeDaoTest {
 
 	public static final int ACCOUNT_TEST_DATA_SIZE = 5;
-	private final ExtensionTableDao dao;
+	private final TablePerAttributeDao dao;
 
 	private final List<Account> accountsToInsert;
 	private final List<Account> accountsToUpdate;
 
 	@Autowired
-	public ExtensionTableDaoTest(ExtensionTableDao dao) {
+	public TablePerAttributeDaoTest(TablePerAttributeDao dao) {
 		this.dao = dao;
 		this.accountsToInsert = generateDemoAccounts(ACCOUNT_TEST_DATA_SIZE);
 		this.accountsToUpdate = generateDemoPersistedAccounts(ACCOUNT_TEST_DATA_SIZE);

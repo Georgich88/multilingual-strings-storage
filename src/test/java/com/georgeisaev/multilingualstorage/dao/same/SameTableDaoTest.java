@@ -1,4 +1,4 @@
-package com.georgeisaev.multilingualstorage.dao.tablePerAttribute;
+package com.georgeisaev.multilingualstorage.dao.same;
 
 import com.georgeisaev.multilingualstorage.domain.Account;
 import org.junit.jupiter.api.AfterEach;
@@ -15,16 +15,16 @@ import static com.georgeisaev.multilingualstorage.demodata.AccountGenerator.gene
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest
-class TablePerAttributeDaoTest {
+class SameTableDaoTest {
 
 	public static final int ACCOUNT_TEST_DATA_SIZE = 5;
-	private final TablePerAttributeDao dao;
+	private final SameTableDao dao;
 
 	private final List<Account> accountsToInsert;
 	private final List<Account> accountsToUpdate;
 
 	@Autowired
-	public TablePerAttributeDaoTest(TablePerAttributeDao dao) {
+	public SameTableDaoTest(SameTableDao dao) {
 		this.dao = dao;
 		this.accountsToInsert = generateDemoAccounts(ACCOUNT_TEST_DATA_SIZE);
 		this.accountsToUpdate = generateDemoPersistedAccounts(ACCOUNT_TEST_DATA_SIZE);

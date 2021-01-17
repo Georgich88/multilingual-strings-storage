@@ -1,4 +1,4 @@
-package com.georgeisaev.multilingualstorage.dao.extensionTable;
+package com.georgeisaev.multilingualstorage.dao.same;
 
 import com.georgeisaev.multilingualstorage.MultilingualStorageApplication;
 import com.georgeisaev.multilingualstorage.domain.Account;
@@ -24,6 +24,13 @@ import org.springframework.context.ConfigurableApplicationContext;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.georgeisaev.multilingualstorage.dao.BenchmarkParameters.ACCOUNT_TEST_DATA_SIZE;
+import static com.georgeisaev.multilingualstorage.dao.BenchmarkParameters.BENCHMARK_DO_GC;
+import static com.georgeisaev.multilingualstorage.dao.BenchmarkParameters.BENCHMARK_FAIL_ON_ERROR;
+import static com.georgeisaev.multilingualstorage.dao.BenchmarkParameters.BENCHMARK_FORKS;
+import static com.georgeisaev.multilingualstorage.dao.BenchmarkParameters.BENCHMARK_MEASUREMENT_ITERATIONS;
+import static com.georgeisaev.multilingualstorage.dao.BenchmarkParameters.BENCHMARK_THREADS;
+import static com.georgeisaev.multilingualstorage.dao.BenchmarkParameters.BENCHMARK_WARMUP_ITERATIONS;
 import static com.georgeisaev.multilingualstorage.demodata.AccountGenerator.generateDemoAccounts;
 import static com.georgeisaev.multilingualstorage.demodata.AccountGenerator.generateDemoPersistedAccounts;
 
@@ -32,21 +39,15 @@ import static com.georgeisaev.multilingualstorage.demodata.AccountGenerator.gene
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-public class ExtensionTableDaoBenchmarkTest {
+public class SameTableDaoBenchmarkTest {
 
-	private static final int ACCOUNT_TEST_DATA_SIZE = 100_000;
-	private static final int BENCHMARK_THREADS = 1;
-	private static final boolean BENCHMARK_DO_GC = true;
-	private static final boolean BENCHMARK_FAIL_ON_ERROR = true;
-	private static final int BENCHMARK_FORKS = 0;
-	private static final int BENCHMARK_MEASUREMENT_ITERATIONS = 5;
-	private static final int BENCHMARK_WARMUP_ITERATIONS = 1;
+
 	@Autowired
-	private ExtensionTableDao dao;
+	private SameTableDao dao;
 	private final List<Account> accountsToInsert;
 	private final List<Account> accountsToUpdate;
 
-	public ExtensionTableDaoBenchmarkTest() {
+	public SameTableDaoBenchmarkTest() {
 		this.accountsToInsert = generateDemoAccounts(ACCOUNT_TEST_DATA_SIZE);
 		this.accountsToUpdate = generateDemoPersistedAccounts(ACCOUNT_TEST_DATA_SIZE);
 	}
@@ -54,7 +55,7 @@ public class ExtensionTableDaoBenchmarkTest {
 	@Setup
 	public void setup() {
 		ConfigurableApplicationContext context = new SpringApplication(MultilingualStorageApplication.class).run();
-		this.dao = context.getBean(ExtensionTableDao.class);
+		this.dao = context.getBean(SameTableDao.class);
 	}
 
 	@BeforeEach

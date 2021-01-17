@@ -1,4 +1,4 @@
-package com.georgeisaev.multilingualstorage.dao.sameTable;
+package com.georgeisaev.multilingualstorage.dao.same;
 
 import com.georgeisaev.multilingualstorage.dao.Dao;
 import com.georgeisaev.multilingualstorage.domain.Account;
@@ -19,14 +19,14 @@ import java.util.stream.Collectors;
 @Repository
 public class SameTableDao implements Dao {
 
-	private static final String INSERT = "insert into \"01_same_table_account\" " +
+	private static final String INSERT = "insert into same_table_account " +
 			"(first_name_en, first_name_ru, first_name_ko) values (?,?,?);";
 	private static final String SELECT = "select id, first_name_en, first_name_ru, first_name_ko " +
-			"from \"01_same_table_account\"";
-	private static final String UPDATE = "update \"01_same_table_account\" " +
+			"from same_table_account";
+	private static final String UPDATE = "update same_table_account " +
 			"set first_name_en = ?, first_name_ru = ?, first_name_ko = ? where id = ?;";
-	private static final String DELETE = "delete from \"01_same_table_account\"; ALTER SEQUENCE \"01_same_table_account_id_seq\" RESTART;\n";
-	private JdbcTemplate jdbc;
+	private static final String DELETE = "delete from same_table_account; ALTER SEQUENCE same_table_account_id_seq RESTART;\n";
+	private final JdbcTemplate jdbc;
 
 	@Autowired
 	public SameTableDao(JdbcTemplate jdbc) {
